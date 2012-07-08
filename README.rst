@@ -53,7 +53,7 @@ Django Social Registration/login
     
     http://127.0.0.1:8000
 
-可以 `点击这儿 <http://ww3.sinaimg.cn/mw690/7380e96cgw1dupuy1r1b8j.jpg>`_ 看看网页的截图
+可以 `点击这儿 <http://ww3.sinaimg.cn/mw690/7380e96cgw1dupvzfd4prj.jpg>`_ 看看网页的截图
 
 
 更详细的教程
@@ -63,4 +63,5 @@ https://github.com/omab/django-social-auth/blob/master/README.rst
 Bring to you by
 ---------------
 http://ikandou.com
+
 http://ikandou.com/book
