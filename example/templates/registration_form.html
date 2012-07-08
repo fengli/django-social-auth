@@ -1,0 +1,54 @@
+{%extends "base.html"%}
+{%block content%}
+      <div class="page-header"><h2>输入你的信息完成注册</h2></div>      
+      <form method="post">{%csrf_token%}
+	<fieldset>
+	  {%if form.non_field_errors%}
+	  <div class="control-group clearfix error">
+	    <label for="xlInput">&nbsp;</label>
+	    {%for error in form.non_field_errors%}
+	    <div class="input">
+	      <span class="help-inline">{{error}}</span>
+	    </div>
+	    {%endfor%}
+	  </div>
+	  {%endif%}
+	  <div class="control-group clearfix{%if form.username.errors%} error{%endif%}">
+	    <label for="xlInput">{{form.username.label}}</label>
+	    <div class="input">
+	      {{form.username}}
+	      {%for error in form.username.errors%}
+	      <span class="help-inline">{{error}}</span>
+	      {%endfor%}
+	      {%if not form.username.errors%}
+	      <span class="help-block">{{form.username.help_text}}</span>
+	      {%endif%}
+	    </div>
+	  </div>
+	  <div class="control-group clearfix{%if form.email.errors%} error{%endif%}">
+	    <label for="xlInput">{{form.email.label}}</label>
+	    <div class="input">
+	      {{form.email}}
+	      {%for error in form.email.errors%}
+	      <span class="help-inline">{{error}}</span>
+	      {%endfor%}
+	      {%if not form.email.errors%}
+	      <span class="help-block">{{form.email.help_text}}</span>
+	      {%endif%}
+	    </div>
+	  </div>
+	  <div class="control-group clearfix{%if form.password1.errors%} error{%endif%}">
+	    <label for="xlInput">{{form.password1.label}}</label>
+	    <div class="input">
+	      {{form.password1}}
+	      {%for error in form.password1.errors%}
+	      <span class="help-inline">{{error}}</span>
+	      {%endfor%}
+	    </div>
+	  </div>
+	  <div class="form-actions">
+	    <input type="submit" class="btn btn-primary" value="创建帐号">&nbsp;</input>
+          </div>
+	</fieldset>
+      </form>
+{%endblock%}

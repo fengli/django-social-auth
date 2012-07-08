@@ -7,6 +7,7 @@ from django.contrib.messages.api import get_messages
 
 from social_auth import __version__ as version
 from social_auth.utils import setting
+from app.forms import RegistrationFormSimple
 
 
 def home(request):
@@ -25,7 +26,7 @@ def done(request):
         'version': version,
         'last_login': request.session.get('social_auth_last_login_backend')
     }
-    return render_to_response('done.html', ctx, RequestContext(request))
+    return render_to_response('home.html', ctx, RequestContext(request))
 
 
 def error(request):
@@ -35,26 +36,39 @@ def error(request):
                                              'messages': messages},
                               RequestContext(request))
 
-
 def logout(request):
     """Logs out user"""
     auth_logout(request)
     return HttpResponseRedirect('/')
 
+def social_registration (request,
+                   template_name="registration_form.html"):
+  """
+  part of the socail registration pipeline. Return a form for fill
+  if it's a new user.
+  """
+  from social_auth.utils import setting
+  name = setting('SOCIAL_AUTH_PARTIAL_PIPELINE_KEY', 'partial_pipeline')
 
-def form(request):
-    if request.method == 'POST' and request.POST.get('username'):
-        name = setting('SOCIAL_AUTH_PARTIAL_PIPELINE_KEY', 'partial_pipeline')
-        request.session['saved_username'] = request.POST['username']
-        backend = request.session[name]['backend']
-        return redirect('socialauth_complete', backend=backend)
-    return render_to_response('form.html', {}, RequestContext(request))
+  if request.method == 'POST':
+    form = RegistrationFormSimple (data=request.POST, files=request.FILES)
+    if form.is_valid():
+      request.session['saved_username'] = request.POST['username']
+      request.session['saved_email'] = request.POST['email']
+      request.session['saved_password'] = request.POST['password1']
+      backend=request.session[name]['backend']
+      return redirect('socialauth_complete', backend=backend)
+  else:
+    social_info = {}
+    try:
+      sf=request.session[name]['kwargs']
+      social_info['username']=sf['details']['username']
+      social_info['email']=sf['details']['email']
+    except KeyError,e: print e
+    print 'social_info',social_info
+    form = RegistrationFormSimple (initial=social_info)
 
-
-def form2(request):
-    if request.method == 'POST' and request.POST.get('first_name'):
-        request.session['saved_first_name'] = request.POST['first_name']
-        name = setting('SOCIAL_AUTH_PARTIAL_PIPELINE_KEY', 'partial_pipeline')
-        backend = request.session[name]['backend']
-        return redirect('socialauth_complete', backend=backend)
-    return render_to_response('form2.html', {}, RequestContext(request))
+  context = RequestContext(request)
+  return render_to_response(template_name,
+                            {'form': form},
+                            context_instance=context)

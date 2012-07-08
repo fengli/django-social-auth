@@ -69,30 +69,32 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    'social_auth.backends.contrib.skyrock.SkyrockBackend',
-    'social_auth.backends.contrib.flickr.FlickrBackend',
-    'social_auth.backends.contrib.instagram.InstagramBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.contrib.yandex.YandexBackend',
-    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
-    'social_auth.backends.contrib.foursquare.FoursquareBackend',
-    'social_auth.backends.OpenIDBackend',
-    'social_auth.backends.contrib.live.LiveBackend',
-    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    'social_auth.backends.contrib.douban.DoubanBackend',
-    'social_auth.backends.browserid.BrowserIDBackend',
-    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
-    'social_auth.backends.contrib.yandex.YandexOAuth2Backend',
-    'social_auth.backends.contrib.yandex.YaruBackend',
-    'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
-    'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
-    'social_auth.backends.contrib.mailru.MailruBackend',
+    # 'social_auth.backends.facebook.FacebookBackend',
+    # 'social_auth.backends.google.GoogleOAuthBackend',
+    # 'social_auth.backends.google.GoogleOAuth2Backend',
+    # 'social_auth.backends.google.GoogleBackend',
+    # 'social_auth.backends.yahoo.YahooBackend',
+    # 'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    # 'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    # 'social_auth.backends.contrib.flickr.FlickrBackend',
+    # 'social_auth.backends.contrib.instagram.InstagramBackend',
+    # 'social_auth.backends.contrib.github.GithubBackend',
+    # 'social_auth.backends.contrib.yandex.YandexBackend',
+    # 'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    # 'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    # 'social_auth.backends.OpenIDBackend',
+    # 'social_auth.backends.contrib.live.LiveBackend',
+    # 'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    # 'social_auth.backends.contrib.douban.DoubanBackend',
+    # 'social_auth.backends.browserid.BrowserIDBackend',
+    # 'social_auth.backends.contrib.vkontakte.VKontakteBackend',
+    # 'social_auth.backends.contrib.yandex.YandexOAuth2Backend',
+    # 'social_auth.backends.contrib.yandex.YaruBackend',
+    # 'social_auth.backends.contrib.odnoklassniki.OdnoklassnikiBackend',
+    # 'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
+    # 'social_auth.backends.contrib.mailru.MailruBackend',
+    'social_auth.backends.contrib.weibo.WeiboBackend',
+    'social_auth.backends.contrib.douban.DoubanBackend',    
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -102,7 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
-    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_by_name_backends',  
 )
 
 LOGIN_REDIRECT_URL = '/'
@@ -112,15 +114,14 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.associate.associate_by_email',
     'social_auth.backends.pipeline.misc.save_status_to_session',
     'app.pipeline.redirect_to_form',
-    'app.pipeline.username',
-    'social_auth.backends.pipeline.user.create_user',
+    'app.pipeline.restore_user_info',
+    'app.pipeline.create_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
-    'app.pipeline.redirect_to_form2',
-    'app.pipeline.first_name',
+    'social_auth.backends.pipeline.user.update_user_details'
 )
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('twitter', 'weibo','douban')
 
 try:
     from local_settings import *

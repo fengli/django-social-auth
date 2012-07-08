@@ -1,97 +1,18 @@
-{% extends "base.html" %}
-
-{% block script %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://browserid.org/include.js" type="text/javascript"></script>
-{% endblock %}
-
-{% block heading %}Login using any of the following methods{% endblock %}
-
-{% block content %}
-<div>
-  <h3>Login using <a href="http://oauth.net/" title="OAuth">OAuth</a> from:</h3>
-  <ul>
-  {% for name in social_auth.backends.oauth %}
-    <li><a rel="nofollow" href="{% url socialauth_begin name %}">{{ name|title }}</a></li>
-  {% endfor %}
-  </ul>
-</div>
-
-<div>
-  <h3>Login using <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-10" title="OAuth2">OAuth2</a> from:</h3>
-  <ul>
-  {% for name in social_auth.backends.oauth2 %}
-    <li><a rel="nofollow" href="{% url socialauth_begin name %}">{{ name|title }}</a></li>
-  {% endfor %}
-  </ul>
-</div>
-
-<div>
-  <h3>Login using <a href="http://openid.net/" title="OpenId">OpenId</a> from:</h3>
-  <ul>
-  {% for name in social_auth.backends.openid %}
-    <li>
-    {% if name != "livejournal" and name != "openid" %}
-      <a rel="nofollow" href="{% url socialauth_begin name %}">{{ name|title }}</a>
-    {% else %}
-      {% if name == "livejournal" %}
-      <form action="{% url socialauth_begin "livejournal" %}" method="post">{% csrf_token %}
-        <div>
-          <label for="openid_lj_user">LiveJournal user:</label>
-          <input id="openid_lj_user" type="text" value="" name="openid_lj_user" />
-          <input type="submit" value="Login"/>
-        </div>
-      </form>
-      {% else %}
-        {% if name == "openid" %}
-        <form action="{% url socialauth_begin "openid" %}" method="post">{% csrf_token %}
-          <div>
-            <label for="openid_identifier">Other provider</label>
-            <input id="openid_identifier" type="text" value="" name="openid_identifier" />
-            <input type="submit" value="Login" />
-          </div>
-          <p class="helptext">Like your personal <a href="https://www.myopenid.com/" title="My OpenId">myopenid</a></p>
-        </form>
-        {% endif %}
-      {% endif %}
-    {% endif %}
-    </li>
-  {% endfor %}
-  </ul>
-</div>
-
-<div>
-  <h3>Login using <a href="https://browserid.org/" title="BrowserID">BrowserID</a>:</h3>
-  <form method="post" action="{% url socialauth_complete "browserid" %}">
-    <input type="hidden" name="assertion" value="" />
-    <a rel="nofollow" id="browserid" href="#">BrowserID</a>
-    <script type="text/javascript">
-      $(function () {
-        $('#browserid').click(function (e) {
-          e.preventDefault();
-          var self = $(this);
-
-          navigator.id.get(function (assertion) {
-            if (assertion) {
-              self.parent('form')
-                    .find('input[type=hidden]')
-                      .attr('value', assertion)
-                    .end()
-                    .submit();
-            } else {
-              alert('Some error occurred');
-            }
-          });
-        });
-      });
-    </script>
-  </form>
-</div>
-
-<div>
-  <h3>Login using other authentication systems:</h3>
-  	<ul>
-  		<li><a rel="nofollow" href="{% url socialauth_begin "vkontakte" %}">VKontakte OpenAPI</a></li>
-	</ul>
-</div>
-{% endblock %}
+{%extends "base.html"%}
+{%block content%}
+  <div class="page-header"><h2>通过weibo/douban/twitter注册或者登陆</h2></div>
+  {%if user.is_authenticated%}
+  <p>你正在使用 <b>{{user.username}}</b> | <b>{{user.email}}</b>登录 | <a href="/logout">注销</a></p>
+  {%endif%}
+    {%for name, account in social_auth.items%}
+    {%if user.is_authenticated%}
+    {%if account%}
+    <p class="desc"><a style="color:#999;" href="{%url socialauth_disconnect_individual account.provider account.id%}">取消关联 {{name}}</a></p>
+    {%else%}
+    <p class="desc"><a href="{%url socialauth_associate_begin name%}">关联到 {{name}}</a></p>
+    {%endif%}
+    {%else%}
+    <p class="desc"><a href="{%url socialauth_associate_begin name%}">通过{{name}}注册或登陆</a></p>
+    {%endif%}
+    {%endfor%}
+{%endblock%}
