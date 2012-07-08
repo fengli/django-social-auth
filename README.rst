@@ -5,10 +5,10 @@ Django Social Registration/login
 
 这个pipeline的逻辑：
 
-   * 如果用户没有注册过，用户可以点击通过weibo/douban注册
-   * 注册过程中会返回用户一个表单，填写username,password,email即可完成注册
-   * 如果用户之前已经关联了weibo/douban等，会直接使用户登录
-   * 用户注册完成或登录之后，仍然可以关联其他帐号
+* 如果用户没有注册过，用户可以点击通过weibo/douban注册
+* 注册过程中会返回用户一个表单，填写username,password,email即可完成注册
+* 如果用户之前已经关联了weibo/douban等，会直接使用户登录
+* 用户注册完成或登录之后，仍然可以关联其他帐号
 
 主要的更新有：
 
@@ -24,15 +24,17 @@ Django Social Registration/login
 你需要先安装 OpenId 和 oauth
 
     pip install python-openid
-    pip install python-oauth2
+
+    pip install oauth2
 
 然后 clone from github
 
     $ git clone git://github.com/fengli/django-social-auth.git
+    
     $ cd django-social-auth
+    
     $ sudo python setup.py install
 
-    http://127.0.0.1:8000
 
 如何测试这个实例
 -------------
@@ -44,7 +46,9 @@ Django Social Registration/login
 中填写相应的信息。
 
     cd example
+    
     python manage.py syncde
+    
     python manage.py runserver
     
     http://127.0.0.1:8000
@@ -55,3 +59,8 @@ Django Social Registration/login
 更详细的教程
 --------------
 https://github.com/omab/django-social-auth/blob/master/README.rst
+
+Bring to you by
+---------------
+http://ikandou.com
+http://ikandou.com/book
