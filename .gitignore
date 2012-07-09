@@ -2,7 +2,6 @@
 *.pyc
 .*.sw[po]
 test*.db
-local_settings.py
 build/
 dist/
 django_social_auth.egg-info/

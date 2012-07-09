@@ -85,7 +85,6 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.OpenIDBackend',
     # 'social_auth.backends.contrib.live.LiveBackend',
     # 'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    # 'social_auth.backends.contrib.douban.DoubanBackend',
     # 'social_auth.backends.browserid.BrowserIDBackend',
     # 'social_auth.backends.contrib.vkontakte.VKontakteBackend',
     # 'social_auth.backends.contrib.yandex.YandexOAuth2Backend',
@@ -94,7 +93,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_auth.backends.contrib.vkontakte.VKontakteOAuth2Backend',
     # 'social_auth.backends.contrib.mailru.MailruBackend',
     'social_auth.backends.contrib.weibo.WeiboBackend',
-    'social_auth.backends.contrib.douban.DoubanBackend',    
+    'social_auth.backends.contrib.douban.DoubanBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
